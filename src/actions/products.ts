@@ -1,6 +1,7 @@
 "use server"
 
-import { saveProduct, updateProduct } from "@/db/products"
+import { deleteProduct, saveProduct, updateProduct } from "@/db/products"
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export type Errors = {
@@ -49,5 +50,10 @@ export async function editProduct(id: string, prevState: FormState, formData: Fo
 
     await updateProduct(+id, { name, description, price: +price});
     redirect("/products");
+}
+
+export async function removeProduct(id: string) {
+    await deleteProduct(+id);
+    revalidatePath('/products');
 }
 
