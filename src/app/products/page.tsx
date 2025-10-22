@@ -1,4 +1,5 @@
-import { getProducts } from "@/db/products"
+import { getProducts } from "@/db/products";
+import { removeProduct } from "@/actions/products";
 import Link from "next/link";
 
 export default async function ProductsList() {
@@ -14,12 +15,15 @@ export default async function ProductsList() {
                             <h2 className="text-2xl font-bold">{product.name}</h2>
                             <p>{product.description ?? ""}</p>
                        </div>
-                       <div className="flex justify-between">
+                       <div className="flex justify-between items-center">
                          <p className="font-extrabold">${product.price}</p>
-                         <div>
+                         <div className="flex gap-4">
                             <Link href={`/products/${product.id}`}>
-                                <div className="py-1 px-2 rounded-md bg-blue-600 text-white">Edit Product</div>
+                                <div className="py-1 px-2 rounded-md bg-blue-600 hover:bg-blue-800 text-white">Edit</div>
                             </Link>
+                            <form action={removeProduct.bind(null, product.id.toString())}>
+                            <button className="py-1 px-2 rounded-md bg-red-600 hover:bg-red-800 text-white">Delete</button>
+                            </form>
                          </div>
                        </div>
                     </div>
